@@ -19,6 +19,8 @@
         </activity>
         <activity android:name=".GameEasy" />
         <activity android:name=".ResultsEasy" />
+        <activity android:name=".ResultsHard" />
+        <activity android:name=".GameHard" />
     </application>
 
 </manifest>

@@ -20,12 +20,20 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(applicationContext, GameEasy::class.java)
             startActivity(intent)
         }
+        new_game_hard_bt.setOnClickListener {
+            val intent = Intent(applicationContext, GameHard::class.java)
+            startActivity(intent)
+        }
         score_menu_bt.setOnClickListener {
             score_easy_bt.isVisible = true
             score_hard_bt.isVisible = true
         }
         score_easy_bt.setOnClickListener {
             val intent = Intent(applicationContext, ResultsEasy::class.java)
+            startActivity(intent)
+        }
+        score_hard_bt.setOnClickListener {
+            val intent = Intent(applicationContext, ResultsHard::class.java)
             startActivity(intent)
         }
         github_link_tv.setOnClickListener {

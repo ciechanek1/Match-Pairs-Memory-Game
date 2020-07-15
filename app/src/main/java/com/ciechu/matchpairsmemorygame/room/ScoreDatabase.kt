@@ -5,10 +5,11 @@ import androidx.room.Database
 import androidx.room.Room.databaseBuilder
 import androidx.room.RoomDatabase
 
-@Database(entities = [EntityResultsEasy::class], version = 1)
+@Database(entities = [EntityResultsEasy::class, EntityResultsHard::class], version = 1)
 abstract class ScoreDatabase : RoomDatabase() {
 
     abstract fun resultsEasyDao(): ResultsEasyDao
+    abstract fun resultsHardDao(): ResultsHardDao
 
     companion object {
         private val DATABASE_NAME = "userdb.db"

@@ -1,17 +1,20 @@
-package com.ciechu.matchpairsmemorygame.viewModel
+package com.ciechu.features.presentation.viewModel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.ciechu.matchpairsmemorygame.room.EntityResultsEasy
-import com.ciechu.matchpairsmemorygame.room.ResultsEasyRepository
+import com.ciechu.core.room.easy.EntityResultsEasy
+import com.ciechu.features.data.repository.ResultsEasyRepository
 
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.runBlocking
 
 class ScoreEasyViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val resultsEasyRepository: ResultsEasyRepository = ResultsEasyRepository(application)
+    private val resultsEasyRepository: ResultsEasyRepository =
+        ResultsEasyRepository(
+            application
+        )
 
     private val allScore: Deferred<LiveData<List<EntityResultsEasy>>> =
         resultsEasyRepository.getAllScore()

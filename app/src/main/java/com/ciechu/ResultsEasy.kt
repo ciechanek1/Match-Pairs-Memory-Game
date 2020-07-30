@@ -1,4 +1,4 @@
-package com.ciechu.matchpairsmemorygame
+package com.ciechu
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -9,7 +9,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import com.ciechu.matchpairsmemorygame.viewModel.ScoreEasyViewModel
+import com.ciechu.features.presentation.viewModel.ScoreEasyViewModel
+import com.ciechu.matchpairsmemorygame.R
 import kotlinx.android.synthetic.main.results_easy.*
 import org.koin.android.ext.android.inject
 

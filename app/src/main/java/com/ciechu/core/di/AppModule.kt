@@ -1,7 +1,7 @@
-package com.ciechu.matchpairsmemorygame.di
+package com.ciechu.core.di
 
-import com.ciechu.matchpairsmemorygame.viewModel.ScoreEasyViewModel
-import com.ciechu.matchpairsmemorygame.viewModel.ScoreHardViewModel
+import com.ciechu.features.presentation.viewModel.ScoreEasyViewModel
+import com.ciechu.features.presentation.viewModel.ScoreHardViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

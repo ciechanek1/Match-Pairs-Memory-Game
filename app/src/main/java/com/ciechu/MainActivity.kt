@@ -1,10 +1,11 @@
-package com.ciechu.matchpairsmemorygame
+package com.ciechu
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import com.ciechu.matchpairsmemorygame.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

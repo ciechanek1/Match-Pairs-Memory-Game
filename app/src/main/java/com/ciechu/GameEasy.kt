@@ -1,13 +1,14 @@
-package com.ciechu.matchpairsmemorygame
+package com.ciechu
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
+import com.ciechu.core.room.easy.EntityResultsEasy
+import com.ciechu.features.presentation.viewModel.ScoreEasyViewModel
+import com.ciechu.matchpairsmemorygame.R
 import com.ciechu.matchpairsmemorygame.R.drawable.*
-import com.ciechu.matchpairsmemorygame.room.EntityResultsEasy
-import com.ciechu.matchpairsmemorygame.viewModel.ScoreEasyViewModel
 import kotlinx.android.synthetic.main.game_easy.*
 import org.koin.android.ext.android.inject
 
@@ -72,7 +73,10 @@ class GameEasy : AppCompatActivity() {
                     }
                 }
                 if (pairs == 6) {
-                    val score = EntityResultsEasy(numberMoves)
+                    val score =
+                        EntityResultsEasy(
+                            numberMoves
+                        )
                     easyViewModel.insert(score)
                     startActivity(Intent(applicationContext, ResultsEasy::class.java).apply {
                         putExtra("Results", numberMoves)

@@ -1,9 +1,13 @@
-package com.ciechu.matchpairsmemorygame.room
+package com.ciechu.features.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room.databaseBuilder
 import androidx.room.RoomDatabase
+import com.ciechu.core.room.easy.EntityResultsEasy
+import com.ciechu.core.room.easy.ResultsEasyDao
+import com.ciechu.core.room.hard.EntityResultsHard
+import com.ciechu.core.room.hard.ResultsHardDao
 
 @Database(entities = [EntityResultsEasy::class, EntityResultsHard::class], version = 1)
 abstract class ScoreDatabase : RoomDatabase() {

@@ -1,13 +1,14 @@
-package com.ciechu.matchpairsmemorygame
+package com.ciechu
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
+import com.ciechu.core.room.hard.EntityResultsHard
+import com.ciechu.features.presentation.viewModel.ScoreHardViewModel
+import com.ciechu.matchpairsmemorygame.R
 import com.ciechu.matchpairsmemorygame.R.drawable.*
-import com.ciechu.matchpairsmemorygame.room.EntityResultsHard
-import com.ciechu.matchpairsmemorygame.viewModel.ScoreHardViewModel
 import kotlinx.android.synthetic.main.game_hard.*
 import org.koin.android.ext.android.inject
 
@@ -104,7 +105,10 @@ class GameHard : AppCompatActivity() {
                     }
                 }
                 if (pairs == 10) {
-                    val score = EntityResultsHard(numberMoves)
+                    val score =
+                        EntityResultsHard(
+                            numberMoves
+                        )
                     hardViewModel.insertScore(score)
                     startActivity(Intent(this, ResultsHard::class.java).apply {
                         putExtra("Results", numberMoves)

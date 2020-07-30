@@ -1,4 +1,4 @@
-package com.ciechu.matchpairsmemorygame.room
+package com.ciechu.core.room.easy
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

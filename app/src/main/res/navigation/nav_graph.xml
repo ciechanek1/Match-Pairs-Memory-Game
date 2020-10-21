@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/menuFragment">
+
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.ciechu.features.presentation.MenuFragment"
+        android:label="MenuFragment">
+        <action
+            android:id="@+id/action_menuFragment_to_gameEasyFragment"
+            app:destination="@id/gameEasyFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/from_right"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/from_right"
+            app:popUpTo="@id/menuFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_gameHardFragment"
+            app:destination="@id/gameHardFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/from_right"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/from_right"
+            app:popUpTo="@id/menuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameEasyFragment"
+        android:name="com.ciechu.features.presentation.GameEasyFragment"
+        android:label="GameEasyFragment" />
+    <fragment
+        android:id="@+id/gameHardFragment"
+        android:name="com.ciechu.features.presentation.GameHardFragment"
+        android:label="GameHardFragment" />
+</navigation>

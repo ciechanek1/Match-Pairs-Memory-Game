@@ -17,10 +17,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.ciechu.GameEasy" />
-        <activity android:name="com.ciechu.ResultsEasy" />
-        <activity android:name="com.ciechu.ResultsHard" />
-        <activity android:name="com.ciechu.GameHard" />
+        <activity android:name="com.ciechu.features.presentation.ResultsEasy" />
+        <activity android:name="com.ciechu.features.presentation.ResultsHard" />
     </application>
 
 </manifest>

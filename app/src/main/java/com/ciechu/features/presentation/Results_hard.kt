@@ -1,4 +1,4 @@
-package com.ciechu
+package com.ciechu.features.presentation
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
+import com.ciechu.MainActivity
 import com.ciechu.features.presentation.viewModel.ScoreHardViewModel
 import com.ciechu.matchpairsmemorygame.R
 import kotlinx.android.synthetic.main.results_hard.*
@@ -64,12 +65,12 @@ class ResultsHard : AppCompatActivity() {
                 MainActivity::class.java
             )
         )
-        if (item.itemId == R.id.restart_game_bt) startActivity(
-            Intent(
-                applicationContext,
-                GameHard::class.java
-            )
-        )
+        /* if (item.itemId == R.id.restart_game_bt) startActivity(
+             Intent(
+                 applicationContext,
+                 GameHard::class.java
+             )
+         )*/
 
         return super.onOptionsItemSelected(item)
     }

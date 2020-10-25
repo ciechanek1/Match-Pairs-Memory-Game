@@ -31,28 +31,10 @@ class ResultsHardFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        if (arguments != null && requireArguments().containsKey("results")) {
-            results_hard.text =
-                ("Congratulations! You completed the game with ${arguments?.getString("results")}" + " points")
-        }
-
-        yes_warning_hard_tv_bt.setOnClickListener {
-            hardViewModel.deleteAllRows()
-            warning_hard_tv.isVisible = false
-            yes_warning_hard_tv_bt.isVisible = false
-            no_warning_hard_tv_bt.isVisible = false
-            Toast.makeText(requireContext(), "All results removed", Toast.LENGTH_SHORT).show()
-        }
-        no_warning_hard_tv_bt.setOnClickListener {
-            warning_hard_tv.isVisible = false
-            yes_warning_hard_tv_bt.isVisible = false
-            no_warning_hard_tv_bt.isVisible = false
-        }
-
-        floatingActionButton_toEasy.setOnClickListener {
-            findNavController().navigate(ResultsHardFragmentDirections.actionResultsHardFragmentToResultsEasyFragment())
-        }
-
+        bundleOfFromGameHardFragment()
+        warningYesSetOnClickListener()
+        warningNoSetOnClickListener()
+        floatingActionButtonSetOnClickListener()
         listOfTheBestResults()
     }
 
@@ -75,12 +57,41 @@ class ResultsHardFragment : Fragment() {
         if (item.itemId == R.id.main_menu_bt) findNavController().navigate(
             ResultsHardFragmentDirections.actionResultsHardFragmentToMenuFragment()
         )
-
         if (item.itemId == R.id.restart_game_bt) findNavController().navigate(
             ResultsHardFragmentDirections.actionResultsHardFragmentToGameHardFragment()
         )
-
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun floatingActionButtonSetOnClickListener() {
+        floatingActionButton_toEasy.setOnClickListener {
+            findNavController().navigate(ResultsHardFragmentDirections.actionResultsHardFragmentToResultsEasyFragment())
+        }
+    }
+
+    private fun warningNoSetOnClickListener() {
+        no_warning_hard_tv_bt.setOnClickListener {
+            warning_hard_tv.isVisible = false
+            yes_warning_hard_tv_bt.isVisible = false
+            no_warning_hard_tv_bt.isVisible = false
+        }
+    }
+
+    private fun warningYesSetOnClickListener() {
+        yes_warning_hard_tv_bt.setOnClickListener {
+            hardViewModel.deleteAllRows()
+            warning_hard_tv.isVisible = false
+            yes_warning_hard_tv_bt.isVisible = false
+            no_warning_hard_tv_bt.isVisible = false
+            Toast.makeText(requireContext(), "All results removed", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun bundleOfFromGameHardFragment() {
+        if (arguments != null && requireArguments().containsKey("results")) {
+            results_hard.text =
+                ("Congratulations! You completed the game with ${arguments?.getString("results")}" + " points")
+        }
     }
 
     @SuppressLint("SetTextI18n")

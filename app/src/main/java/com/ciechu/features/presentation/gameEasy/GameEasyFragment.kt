@@ -32,9 +32,7 @@ class GameEasyFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        easyViewModel.points.observe(viewLifecycleOwner, Observer {
-            (requireActivity() as AppCompatActivity).supportActionBar?.title = "$it points"
-        })
+        observePoints()
 
         val listImages: MutableList<Int> = mutableListOf(
             asistante, asistante,
@@ -57,6 +55,28 @@ class GameEasyFragment : Fragment() {
 
         listImages.shuffle()
 
+        levelLoop(buttons, listImages, clicked, lastClicked, numberMoves, pairs, cardBack)
+    }
+
+    private fun observePoints() {
+        easyViewModel.points.observe(viewLifecycleOwner, Observer {
+            (requireActivity() as AppCompatActivity).supportActionBar?.title = "$it points"
+        })
+    }
+
+    private fun levelLoop(
+        buttons: Array<Button>,
+        listImages: MutableList<Int>,
+        clicked: Int,
+        lastClicked: Int,
+        numberMoves: Int,
+        pairs: Int,
+        cardBack: Int
+    ) {
+        var clicked1 = clicked
+        var lastClicked1 = lastClicked
+        var numberMoves1 = numberMoves
+        var pairs1 = pairs
         for (i in 0..11) {
             buttons[i].text = "back"
             buttons[i].textSize = 0.0F
@@ -64,34 +84,34 @@ class GameEasyFragment : Fragment() {
                 if (buttons[i].text == "back") {
                     buttons[i].setBackgroundResource(listImages[i])
                     buttons[i].setText(listImages[i])
-                    if (clicked == 0) lastClicked = i
-                    clicked++
-                    numberMoves++
+                    if (clicked1 == 0) lastClicked1 = i
+                    clicked1++
+                    numberMoves1++
                     easyViewModel.points.value = easyViewModel.points.value?.plus(1)
 
                 }
-                if (clicked == 2) {
-                    if (buttons[i].text == buttons[lastClicked].text) {
+                if (clicked1 == 2) {
+                    if (buttons[i].text == buttons[lastClicked1].text) {
                         buttons[i].isClickable = false
-                        buttons[lastClicked].isClickable = false
-                        clicked = 0
-                        pairs++
+                        buttons[lastClicked1].isClickable = false
+                        clicked1 = 0
+                        pairs1++
                     } else {
                         buttonFalseClickable(buttons)
                         buttons[i].text = "back"
-                        buttons[lastClicked].text = "back"
+                        buttons[lastClicked1].text = "back"
                         Handler().postDelayed({
                             buttons[i].setBackgroundResource(cardBack)
-                            buttons[lastClicked].setBackgroundResource(cardBack)
-                            clicked = 0
+                            buttons[lastClicked1].setBackgroundResource(cardBack)
+                            clicked1 = 0
                             buttonTrueClickable(buttons)
                         }, 800)
                     }
                 }
-                if (pairs == 6) {
+                if (pairs1 == 6) {
                     val score =
                         EntityResultsEasy(
-                            numberMoves
+                            numberMoves1
                         )
                     easyViewModel.insert(score)
                     findNavController().navigate(

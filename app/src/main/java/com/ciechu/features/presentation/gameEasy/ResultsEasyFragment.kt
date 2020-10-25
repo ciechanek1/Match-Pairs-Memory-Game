@@ -32,28 +32,10 @@ class ResultsEasyFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        if (arguments != null && requireArguments().containsKey("results")) {
-            results_easy_tv.text =
-                ("Congratulations! You completed the game with ${arguments?.getString("results")}" + " points")
-        }
-
-        yes_warning_easy_tv_bt.setOnClickListener {
-            easyViewModel.deleteAllRows()
-            warning_easy_tv.isVisible = false
-            yes_warning_easy_tv_bt.isVisible = false
-            no_warning_easy_tv_bt.isVisible = false
-            Toast.makeText(requireContext(), "All results removed", Toast.LENGTH_SHORT).show()
-        }
-        no_warning_easy_tv_bt.setOnClickListener {
-            warning_easy_tv.isVisible = false
-            yes_warning_easy_tv_bt.isVisible = false
-            no_warning_easy_tv_bt.isVisible = false
-        }
-
-        floatingActionButton_toHard.setOnClickListener {
-            findNavController().navigate(ResultsEasyFragmentDirections.actionResultsEasyFragmentToResultsHardFragment())
-        }
-
+        bundleOfFromGameEasyFragment()
+        warningYesSetOnClickListener()
+        warningNoSetOnClickListener()
+        floatingActionButtonSetOnClickListener()
         listOfTheBestResults()
     }
 
@@ -76,12 +58,41 @@ class ResultsEasyFragment : Fragment() {
         if (item.itemId == R.id.main_menu_bt) findNavController().navigate(
             ResultsEasyFragmentDirections.actionResultsEasyFragmentToMenuFragment2()
         )
-
         if (item.itemId == R.id.restart_game_bt) findNavController().navigate(
             ResultsEasyFragmentDirections.actionResultsEasyFragmentToGameEasyFragment()
         )
-
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun floatingActionButtonSetOnClickListener() {
+        floatingActionButton_toHard.setOnClickListener {
+            findNavController().navigate(ResultsEasyFragmentDirections.actionResultsEasyFragmentToResultsHardFragment())
+        }
+    }
+
+    private fun warningNoSetOnClickListener() {
+        no_warning_easy_tv_bt.setOnClickListener {
+            warning_easy_tv.isVisible = false
+            yes_warning_easy_tv_bt.isVisible = false
+            no_warning_easy_tv_bt.isVisible = false
+        }
+    }
+
+    private fun warningYesSetOnClickListener() {
+        yes_warning_easy_tv_bt.setOnClickListener {
+            easyViewModel.deleteAllRows()
+            warning_easy_tv.isVisible = false
+            yes_warning_easy_tv_bt.isVisible = false
+            no_warning_easy_tv_bt.isVisible = false
+            Toast.makeText(requireContext(), "All results removed", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun bundleOfFromGameEasyFragment() {
+        if (arguments != null && requireArguments().containsKey("results")) {
+            results_easy_tv.text =
+                ("Congratulations! You completed the game with ${arguments?.getString("results")}" + " points")
+        }
     }
 
     @SuppressLint("SetTextI18n")

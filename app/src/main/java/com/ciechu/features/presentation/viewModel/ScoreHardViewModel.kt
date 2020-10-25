@@ -1,25 +1,24 @@
 package com.ciechu.features.presentation.viewModel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.ciechu.core.room.hard.EntityResultsHard
 import com.ciechu.features.data.repository.ResultsHardRepository
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.runBlocking
 
-class ScoreHardViewModel(application: Application) : AndroidViewModel(application) {
+class ScoreHardViewModel(private val repository: ResultsHardRepository) : ViewModel() {
 
-    private var resultsHardRepository: ResultsHardRepository =
-        ResultsHardRepository(
-            application
-        )
+    val points by lazy {
+        MutableLiveData<Int>().apply { postValue(0) }
+    }
 
     private var allScore: Deferred<LiveData<List<EntityResultsHard>>> =
-        resultsHardRepository.getAllScore()
+        repository.getAllScore()
 
     fun insertScore(score: EntityResultsHard) {
-        resultsHardRepository.insertScore(score)
+        repository.insertScore(score)
     }
 
     fun getAllScore(): LiveData<List<EntityResultsHard>> = runBlocking {
@@ -27,6 +26,6 @@ class ScoreHardViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun deleteAllRows() {
-        resultsHardRepository.deleteAllRows()
+        repository.deleteAllRows()
     }
 }

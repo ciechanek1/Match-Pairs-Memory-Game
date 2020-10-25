@@ -6,47 +6,38 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.ciechu.MenuFragmentDirections
+import com.ciechu.features.presentation.dialogFragment.LevelSelectionDialogFragment
 import com.ciechu.matchpairsmemorygame.R
 import kotlinx.android.synthetic.main.fragment_menu.*
+import org.koin.android.ext.android.inject
 
 class MenuFragment : Fragment() {
+
+    private val levelSelectionDialogFragment: LevelSelectionDialogFragment by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Match Pairs Memory Game"
         return inflater.inflate(R.layout.fragment_menu, container, false)
     }
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         new_game_bt?.setOnClickListener {
-            new_game_easy_bt.isVisible = true
-            new_game_hard_bt.isVisible = true
+            levelSelectionDialogFragment.setTargetFragment(this, 1)
+            levelSelectionDialogFragment.show(parentFragmentManager, "SelectLevelDialog")
         }
-        new_game_easy_bt?.setOnClickListener {
-            findNavController().navigate(MenuFragmentDirections.actionMenuFragmentToGameEasyFragment())
-        }
-        new_game_hard_bt?.setOnClickListener {
-            findNavController().navigate(MenuFragmentDirections.actionMenuFragmentToGameHardFragment())
-        }
+
         score_menu_bt?.setOnClickListener {
-            score_easy_bt.isVisible = true
-            score_hard_bt.isVisible = true
+            findNavController().navigate(MenuFragmentDirections.actionMenuFragmentToResultsEasyFragment())
         }
-        score_easy_bt?.setOnClickListener {
-            val intent = Intent(requireContext(), ResultsEasy::class.java)
-            startActivity(intent)
-        }
-        score_hard_bt?.setOnClickListener {
-            val intent = Intent(requireContext(), ResultsHard::class.java)
-            startActivity(intent)
-        }
+
         github_link_tv?.setOnClickListener {
             val openURL = Intent(Intent.ACTION_VIEW)
             openURL.data = Uri.parse("https://github.com/ciechanek1?tab=repositories")

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:icon="@drawable/ic_launcher_background"
+        android:id="@+id/resultsEasyFragment"
+        android:title="Results Easy" />
+
+    <item
+        android:icon="@drawable/abc_vector_test"
+        android:id="@+id/resultsHardFragment"
+        android:title="Results Hard" />
+
+</menu>

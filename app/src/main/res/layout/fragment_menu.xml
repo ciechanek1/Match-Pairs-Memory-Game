@@ -26,25 +26,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/new_game_easy_bt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Easy"
-                android:visibility="invisible" />
-
-            <Button
-                android:id="@+id/new_game_hard_bt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Hard"
-                android:visibility="invisible" />
-
-        </LinearLayout>
+            android:orientation="horizontal" />
 
         <Button
             android:id="@+id/score_menu_bt"
@@ -55,24 +37,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/score_easy_bt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="easy"
-                android:visibility="invisible" />
-
-            <Button
-                android:id="@+id/score_hard_bt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="hard"
-                android:visibility="invisible" />
-        </LinearLayout>
+            android:orientation="horizontal" />
 
     </LinearLayout>
 

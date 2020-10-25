@@ -1,22 +1,26 @@
-package com.ciechu.features.presentation
+package com.ciechu.features.presentation.gameHard
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.ciechu.core.room.hard.EntityResultsHard
 import com.ciechu.features.presentation.viewModel.ScoreHardViewModel
 import com.ciechu.matchpairsmemorygame.R
+import com.ciechu.matchpairsmemorygame.R.drawable.*
 import kotlinx.android.synthetic.main.fragment_game_hard.*
-import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class GameHardFragment : Fragment() {
 
-    private val hardViewModel: ScoreHardViewModel by inject()
+    private val hardViewModel: ScoreHardViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,27 +32,31 @@ class GameHardFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        hardViewModel.points.observe(viewLifecycleOwner, Observer {
+            (requireActivity() as AppCompatActivity).supportActionBar?.title = "$it points"
+        })
+
         val listImages: MutableList<Int> = mutableListOf(
-            R.drawable.animal_bear,
-            R.drawable.animal_bear,
-            R.drawable.animal_camel,
-            R.drawable.animal_camel,
-            R.drawable.animal_cat,
-            R.drawable.animal_cat,
-            R.drawable.animal_cow,
-            R.drawable.animal_cow,
-            R.drawable.animal_cheetah,
-            R.drawable.animal_cheetah,
-            R.drawable.animal_kangoroo,
-            R.drawable.animal_kangoroo,
-            R.drawable.animal_gorilla,
-            R.drawable.animal_gorilla,
-            R.drawable.animal_sheep,
-            R.drawable.animal_sheep,
-            R.drawable.animal_wolf,
-            R.drawable.animal_wolf,
-            R.drawable.animal_mouse,
-            R.drawable.animal_mouse
+            animal_bear,
+            animal_bear,
+            animal_camel,
+            animal_camel,
+            animal_cat,
+            animal_cat,
+            animal_cow,
+            animal_cow,
+            animal_cheetah,
+            animal_cheetah,
+            animal_kangoroo,
+            animal_kangoroo,
+            animal_gorilla,
+            animal_gorilla,
+            animal_sheep,
+            animal_sheep,
+            animal_wolf,
+            animal_wolf,
+            animal_mouse,
+            animal_mouse
         )
 
         val buttons = arrayOf(
@@ -74,7 +82,7 @@ class GameHardFragment : Fragment() {
             button32
         )
 
-        val cardBack = R.drawable.ic_launcher_background
+        val cardBack = ic_launcher_background
         var clicked = 0
         var lastClicked = -1
         var numberMoves = 0
@@ -92,6 +100,7 @@ class GameHardFragment : Fragment() {
                     if (clicked == 0) lastClicked = i
                     clicked++
                     numberMoves++
+                    hardViewModel.points.value = hardViewModel.points.value?.plus(1)
                 }
                 if (clicked == 2) {
                     if (buttons[i].text == buttons[lastClicked].text) {
@@ -117,9 +126,10 @@ class GameHardFragment : Fragment() {
                             numberMoves
                         )
                     hardViewModel.insertScore(score)
-                    startActivity(Intent(requireContext(), ResultsHard::class.java).apply {
-                        putExtra("Results", numberMoves)
-                    })
+                    findNavController().navigate(
+                        GameHardFragmentDirections.actionGameHardFragmentToResultsHardFragment().actionId,
+                        bundleOf("results" to hardViewModel.points.value.toString())
+                    )
                 }
             }
         }

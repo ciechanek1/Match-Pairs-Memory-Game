@@ -1,41 +1,47 @@
-package com.ciechu.features.presentation
+package com.ciechu.features.presentation.gameHard
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.ciechu.MainActivity
+import androidx.navigation.fragment.findNavController
 import com.ciechu.features.presentation.viewModel.ScoreHardViewModel
 import com.ciechu.matchpairsmemorygame.R
-import kotlinx.android.synthetic.main.results_hard.*
+import kotlinx.android.synthetic.main.fragment_results_hard.*
 import org.koin.android.ext.android.inject
 
-
-class ResultsHard : AppCompatActivity() {
+class ResultsHardFragment : Fragment() {
 
     private val hardViewModel: ScoreHardViewModel by inject()
     private var optionMenu: Menu? = null
 
-    @SuppressLint("SetTextI18n")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.results_hard)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Results hard level"
+        setHasOptionsMenu(true)
+        return inflater.inflate(R.layout.fragment_results_hard, container, false)
+    }
 
-        if (intent.hasExtra("Results")) {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        if (arguments != null && requireArguments().containsKey("results")) {
             results_hard.text =
-                "Congratulations! You completed the game with ${intent.getSerializableExtra("Results")} moves"
+                ("Congratulations! You completed the game with ${arguments?.getString("results")}" + " points")
         }
+
         yes_warning_hard_tv_bt.setOnClickListener {
             hardViewModel.deleteAllRows()
             warning_hard_tv.isVisible = false
             yes_warning_hard_tv_bt.isVisible = false
             no_warning_hard_tv_bt.isVisible = false
-            Toast.makeText(applicationContext, "All results removed", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "All results removed", Toast.LENGTH_SHORT).show()
         }
         no_warning_hard_tv_bt.setOnClickListener {
             warning_hard_tv.isVisible = false
@@ -43,14 +49,21 @@ class ResultsHard : AppCompatActivity() {
             no_warning_hard_tv_bt.isVisible = false
         }
 
+        floatingActionButton_toEasy.setOnClickListener {
+            findNavController().navigate(ResultsHardFragmentDirections.actionResultsHardFragmentToResultsEasyFragment())
+        }
+
         listOfTheBestResults()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_results_hard, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_results, menu)
         optionMenu = menu
-        if (intent.hasExtra("Results")) optionMenu?.findItem(R.id.restart_game_bt)?.isVisible = true
-        return super.onCreateOptionsMenu(menu)
+        if (arguments != null && requireArguments().containsKey("results")) {
+            optionMenu?.findItem(R.id.restart_game_bt)?.isVisible =
+                true
+        }
+        return super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -59,25 +72,20 @@ class ResultsHard : AppCompatActivity() {
             yes_warning_hard_tv_bt.isVisible = true
             no_warning_hard_tv_bt.isVisible = true
         }
-        if (item.itemId == R.id.main_menu_hard_bt) startActivity(
-            Intent(
-                applicationContext,
-                MainActivity::class.java
-            )
+        if (item.itemId == R.id.main_menu_bt) findNavController().navigate(
+            ResultsHardFragmentDirections.actionResultsHardFragmentToMenuFragment()
         )
-        /* if (item.itemId == R.id.restart_game_bt) startActivity(
-             Intent(
-                 applicationContext,
-                 GameHard::class.java
-             )
-         )*/
+
+        if (item.itemId == R.id.restart_game_bt) findNavController().navigate(
+            ResultsHardFragmentDirections.actionResultsHardFragmentToGameHardFragment()
+        )
 
         return super.onOptionsItemSelected(item)
     }
 
     @SuppressLint("SetTextI18n")
     private fun listOfTheBestResults() {
-        hardViewModel.getAllScore().observe(this, Observer {
+        hardViewModel.getAllScore().observe(viewLifecycleOwner, Observer {
 
             val sortedList = it.sortedBy { it.score }
 

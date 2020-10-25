@@ -1,48 +1,55 @@
-package com.ciechu.features.presentation
+package com.ciechu.features.presentation.gameEasy
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.ciechu.core.room.easy.EntityResultsEasy
 import com.ciechu.features.presentation.viewModel.ScoreEasyViewModel
 import com.ciechu.matchpairsmemorygame.R
+import com.ciechu.matchpairsmemorygame.R.drawable.*
 import kotlinx.android.synthetic.main.fragment_game_easy.*
-import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class GameEasyFragment : Fragment() {
 
-    private val easyViewModel: ScoreEasyViewModel by inject()
+    private val easyViewModel: ScoreEasyViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_game_easy, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        easyViewModel.points.observe(viewLifecycleOwner, Observer {
+            (requireActivity() as AppCompatActivity).supportActionBar?.title = "$it points"
+        })
+
         val listImages: MutableList<Int> = mutableListOf(
-            R.drawable.asistante, R.drawable.asistante,
-            R.drawable.chef, R.drawable.chef,
-            R.drawable.king, R.drawable.king,
-            R.drawable.police_women, R.drawable.police_women,
-            R.drawable.speaker, R.drawable.speaker,
-            R.drawable.superman, R.drawable.superman
+            asistante, asistante,
+            chef, chef,
+            king, king,
+            police_women, police_women,
+            speaker, speaker,
+            superman, superman
         )
         val buttons = arrayOf(
             button, button2, button3, button4, button5, button6,
             button7, button8, button9, button10, button11, button12
         )
 
-        val cardBack = R.drawable.ic_launcher_background
+        val cardBack = ic_launcher_background
         var clicked = 0
         var lastClicked = -1
         var numberMoves = 0
@@ -60,6 +67,8 @@ class GameEasyFragment : Fragment() {
                     if (clicked == 0) lastClicked = i
                     clicked++
                     numberMoves++
+                    easyViewModel.points.value = easyViewModel.points.value?.plus(1)
+
                 }
                 if (clicked == 2) {
                     if (buttons[i].text == buttons[lastClicked].text) {
@@ -85,9 +94,10 @@ class GameEasyFragment : Fragment() {
                             numberMoves
                         )
                     easyViewModel.insert(score)
-                    startActivity(Intent(requireContext(), ResultsEasy::class.java).apply {
-                        putExtra("Results", numberMoves)
-                    })
+                    findNavController().navigate(
+                        GameEasyFragmentDirections.actionGameEasyFragmentToResultsEasyFragment().actionId,
+                        bundleOf("results" to easyViewModel.points.value.toString())
+                    )
                 }
             }
         }
